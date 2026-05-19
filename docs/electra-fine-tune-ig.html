@@ -52,14 +52,17 @@
 
     <p>The notebook is based on the <a href="https://huggingface.co/" target="_blank" rel="noopener">Hugging Face documentation</a>; the Integrated Gradients implementation is adapted from <a href="https://captum.ai/tutorials/Bert_SQUAD_Interpret" target="_blank" rel="noopener">Interpreting BERT Models (Part 1)</a>.</p>
 
-    <h2>Visualization</h2>
-    <p>The Captum visualization library shows in <strong>green</strong> tokens that push the prediction toward the target class. Those driving the score toward the reference value are marked in <strong>red</strong>. As a result, words perceived as positive will appear green when attribution targets class 1 (positive), but red when attribution targets class 0 (negative).</p>
-    <p>Because importance scores are assigned to tokens &mdash; not words &mdash; some examples show that attribution is highly dependent on tokenization.</p>
-
-    <h3>Attributions for a correctly classified positive example</h3>
-    <figure class="figure">
-      <img src="/imgs/xai-nlp-notebooks/electra-attr-positive-positive.png" alt="Electra attributions, positive sample classified as positive">
-    </figure>
+    <section class="split split-justify">
+      <div class="split-text">
+        <h2>Visualization</h2>
+        <p>The Captum visualization library shows in <strong>green</strong> tokens that push the prediction toward the target class. Those driving the score toward the reference value are marked in <strong>red</strong>. As a result, words perceived as positive will appear green when attribution targets class 1 (positive), but red when attribution targets class 0 (negative).</p>
+        <p>Because importance scores are assigned to tokens &mdash; not words &mdash; some examples show that attribution is highly dependent on tokenization.</p>
+      </div>
+      <figure class="split-figure">
+        <img src="/imgs/xai-nlp-notebooks/electra-attr-positive-positive.png" alt="Electra attributions, positive sample classified as positive">
+        <figcaption>Attributions for a correctly classified positive example</figcaption>
+      </figure>
+    </section>
 
     <h3>Attributions for a correctly classified negative example</h3>
     <figure class="figure">

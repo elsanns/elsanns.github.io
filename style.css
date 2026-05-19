@@ -381,6 +381,7 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--text-muted);
   line-height: 1.5;
 }
+.article.magazine .split.split-justify .split-text p { text-align: justify; hyphens: auto; }
 .article.magazine .split-figure { margin: 0; }
 .article.magazine .split-figure img {
   border-radius: var(--radius);
