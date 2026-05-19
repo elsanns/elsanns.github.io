@@ -1,39 +1,83 @@
+<!doctype html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fine-tuning Electra with Captum Integrated Gradients — elsanns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/style.css">
 </head>
+<body>
+<header class="site-header">
+  <a class="site-title" href="/">elsanns</a>
+  <a class="link-back" href="/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+    All notebooks
+  </a>
+</header>
 
-<a href="https://github.com/elsanns/xai-nlp-notebooks/blob/master/electra_fine_tune_interpret_captum_ig.ipynb" target="_blank">repo</a> 
-<a href="https://colab.research.google.com/github/elsanns/xai-nlp-notebooks/blob/master/electra_fine_tune_interpret_captum_ig.ipynb" target="_blank">Colab notebook</a>
+<main class="article magazine">
+  <h1>Fine-tuning Electra and interpreting with Captum Integrated Gradients</h1>
 
-<h2 id="-a-name-electraig-anchor-fine-tuning-electra-and-interpreting-with-captum-integrated-gradients-a-">Fine-tuning Electra and interpreting with Captum Integrated Gradients</h2>
-<hr>
-<p>This notebook contains an example of <a href="https://huggingface.co/transformers/training.html" target="_blank">fine-tuning</a> an <a href="https://huggingface.co/transformers/model_doc/electra.html" target="_blank">Electra</a> model on the <a href="https://nlp.stanford.edu/sentiment/index.html" target="_blank">GLUE SST-2</a> dataset. After fine-tuning, the <a href="https://arxiv.org/pdf/1703.01365.pdf" target="_blank">Integrated Gradients</a> <strong>interpretability</strong> method is applied to compute tokens&#39; attributions for each target class. </p>
-<ul>
-<li>We will instantiate a pre-trained Electra model from the <a href="https://huggingface.co/transformers/" target="_blank">Transformers</a> library. </li>
-<li>The data is downloaded from the <a href="https://huggingface.co/nlp/" target="_blank">nlp</a> library. The input text is tokenized with <a href="https://huggingface.co/transformers/model_doc/electra.html#electratokenizerfast" target="_blank">ElectraTokenizerFast</a> tokenizer backed by HF <a href="https://huggingface.co/transformers/main_classes/tokenizer.html" target="_blank">tokenizers</a> library.</li>
-<li><strong>Fine-tuning</strong> for sentiment analysis is handled by the <a href="https://huggingface.co/transformers/main_classes/trainer.html" target="_blank">Trainer</a> class. </li>
-<li>After fine-tuning, the <a href="https://captum.ai/api/integrated_gradients.html" target="_blank">Integrated Gradients</a> interpretability algorithm will assign importance scores to
-input tokens. We will use a <strong>PyTorch</strong> implementation from the <a href="https://captum.ai/" target="_blank">Captum</a> library. <ul>
-<li>The algorithm requires providing a reference sample (a baseline) since importance attribution is performed based on the model&#39;s output, as inputs change from reference values to the actual sample. </li>
-<li>The Integrated Gradients method satisfies the <strong>completeness</strong> property. We will look at the sum of attributions for a sample and show that the sum approximates (explains) prediction&#39;s shift from the baseline value. </li>
-</ul>
-</li>
-<li>The final sections of the notebook contain a colour-coded <strong>visualization</strong> of attribution results made with <em>captum.attr.visualization</em> library.</li>
-</ul>
-<p>The notebook is based on the <a href="https://huggingface.co/" target="_blank">Hugging Face documentation</a> and the implementation of Integrated Gradients attribution methods is adapted from the Captum.ai
-<a href="https://captum.ai/tutorials/Bert_SQUAD_Interpret" target="_blank">Interpreting BERT Models (Part 1)</a>.</p>
-<p>
-<h3 id="visualization">Visualization</h3>
-Captum visualization library shows in green tokens that push the prediction towards the target class. Those driving the score towards the reference value are marked in red. As a result, words perceived as positive will appear in green if attribution is performed against class 1 (positive) but will be highlighted in red with an attribution targeting class 0 (negative).
+  <div class="meta">
+    <a class="pill" href="https://github.com/elsanns/xai-nlp-notebooks/blob/master/electra_fine_tune_interpret_captum_ig.ipynb" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+      Repo
+      <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+    </a>
+    <a class="pill" href="https://colab.research.google.com/github/elsanns/xai-nlp-notebooks/blob/master/electra_fine_tune_interpret_captum_ig.ipynb" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="12" r="3"/><path d="M9 12h6"/></svg>
+      Colab notebook
+      <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+    </a>
+  </div>
 
-Because importance scores ar assigned to tokens, not words, some examples may show that attribution is highly dependent on tokenization.
-</p>
-<h3 id="attributions-for-a-correctly-classified-positive-example">Attributions for a correctly classified positive example</h3>
-<hr>
-<p><img src="/imgs/xai-nlp-notebooks/electra-attr-positive-positive.png" width="800px" style="max-width:100%"></p>
-<h3 id="attributions-for-a-correctly-classified-negative-example">Attributions for a correctly classified negative example</h3>
-<hr>
-<p><img src="/imgs/xai-nlp-notebooks/electra-attr-negative-negative.png" width="800px" style="max-width:100%"></p>
-<h3 id="attributions-for-a-negative-sample-misclassified-as-positive">Attributions for a negative sample misclassified as positive</h3>
-<hr>
-<p><img src="/imgs/xai-nlp-notebooks/electra-attr-negative-positive.png" width="800px" style="max-width:100%"></p>
+  <article class="prose">
+    <p>This notebook contains an example of <a href="https://huggingface.co/transformers/training.html" target="_blank" rel="noopener">fine-tuning</a> an <a href="https://huggingface.co/transformers/model_doc/electra.html" target="_blank" rel="noopener">Electra</a> model on the <a href="https://nlp.stanford.edu/sentiment/index.html" target="_blank" rel="noopener">GLUE SST-2</a> dataset. After fine-tuning, the <a href="https://arxiv.org/pdf/1703.01365.pdf" target="_blank" rel="noopener">Integrated Gradients</a> <strong>interpretability</strong> method is applied to compute tokens' attributions for each target class.</p>
+
+    <ul>
+      <li>We instantiate a pre-trained Electra model from the <a href="https://huggingface.co/transformers/" target="_blank" rel="noopener">Transformers</a> library.</li>
+      <li>The data is downloaded from the <a href="https://huggingface.co/nlp/" target="_blank" rel="noopener">nlp</a> library. Input text is tokenized with <a href="https://huggingface.co/transformers/model_doc/electra.html#electratokenizerfast" target="_blank" rel="noopener">ElectraTokenizerFast</a>, backed by the HF <a href="https://huggingface.co/transformers/main_classes/tokenizer.html" target="_blank" rel="noopener">tokenizers</a> library.</li>
+      <li><strong>Fine-tuning</strong> for sentiment analysis is handled by the <a href="https://huggingface.co/transformers/main_classes/trainer.html" target="_blank" rel="noopener">Trainer</a> class.</li>
+      <li>After fine-tuning, the <a href="https://captum.ai/api/integrated_gradients.html" target="_blank" rel="noopener">Integrated Gradients</a> algorithm assigns importance scores to input tokens, using a <strong>PyTorch</strong> implementation from <a href="https://captum.ai/" target="_blank" rel="noopener">Captum</a>.
+        <ul>
+          <li>The algorithm requires a reference sample (a baseline); attribution is performed based on the model's output as inputs change from reference values to the actual sample.</li>
+          <li>Integrated Gradients satisfies the <strong>completeness</strong> property &mdash; the sum of attributions for a sample approximates the prediction's shift from the baseline value.</li>
+        </ul>
+      </li>
+      <li>The final sections of the notebook contain a colour-coded <strong>visualization</strong> of attribution results, made with <code>captum.attr.visualization</code>.</li>
+    </ul>
+
+    <p>The notebook is based on the <a href="https://huggingface.co/" target="_blank" rel="noopener">Hugging Face documentation</a>; the Integrated Gradients implementation is adapted from <a href="https://captum.ai/tutorials/Bert_SQUAD_Interpret" target="_blank" rel="noopener">Interpreting BERT Models (Part 1)</a>.</p>
+
+    <h2>Visualization</h2>
+    <p>The Captum visualization library shows in <strong>green</strong> tokens that push the prediction toward the target class. Those driving the score toward the reference value are marked in <strong>red</strong>. As a result, words perceived as positive will appear green when attribution targets class 1 (positive), but red when attribution targets class 0 (negative).</p>
+    <p>Because importance scores are assigned to tokens &mdash; not words &mdash; some examples show that attribution is highly dependent on tokenization.</p>
+
+    <h3>Attributions for a correctly classified positive example</h3>
+    <figure class="figure">
+      <img src="/imgs/xai-nlp-notebooks/electra-attr-positive-positive.png" alt="Electra attributions, positive sample classified as positive">
+    </figure>
+
+    <h3>Attributions for a correctly classified negative example</h3>
+    <figure class="figure">
+      <img src="/imgs/xai-nlp-notebooks/electra-attr-negative-negative.png" alt="Electra attributions, negative sample classified as negative">
+    </figure>
+
+    <h3>Attributions for a negative sample misclassified as positive</h3>
+    <figure class="figure">
+      <img src="/imgs/xai-nlp-notebooks/electra-attr-negative-positive.png" alt="Electra attributions, negative sample misclassified as positive">
+    </figure>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <a href="https://github.com/elsanns" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+    github.com/elsanns
+  </a>
+</footer>
+</body>
+</html>

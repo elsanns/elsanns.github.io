@@ -1,88 +1,136 @@
-<a href="https://github.com/elsanns/adversarial-autoencoder-tf2" target="_blank">repo</a> 
-<h1 id="adversarial-autoencoder-tf2">Adversarial autoencoder TF2</h1>
-<p>A Tensorflow 2.0 implementation of <strong><a href="https://arxiv.org/abs/1511.05644/" target="_blank">Adversarial Autoencoder</a></strong> (ICLR 2016)</p>
-<p><br></p>
-<h2 id="model">Model</h2>
-<table>
-<thead>
-<tr>
-<th>Architecture</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/imgs/adversarial-autoencoder-tf2/aae-fig3.png" width="600px" style="max-width:100%"></td>
-<td>Regularization of the hidden code by incorporationg full label information (Fig.3 from the paper).<br/> <sub><em>Alireza Makhzani, Jonathon Shlens, Navdeep Jaitly, and Ian J. Goodfellow. 2015. Adversarial Autoencoders. CoRRabs/1511.05644 (2015). Figure 3 from the paper.</em></sub></td>
-</tr>
-</tbody>
-</table>
-<p><br></p>
-<h2 id="results-for-gaussian_mixture-prior">Results for <code>gaussian_mixture</code> prior</h2>
-<h3 id="latent-space">Latent space</h3>
-<table>
-<thead>
-<tr>
-<th>Target prior distribution</th>
-<th>Learnt latent space</th>
-<th>Sampled decoder ouput</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/imgs/adversarial-autoencoder-tf2/gaussian_mixture_target_prior.png" width="300px" style="max-width:100%"></td>
-<td><img src="/imgs/adversarial-autoencoder-tf2/learnt_manifold_example.png" width="300px" style="max-width:100%"></td>
-<td><img src="/imgs/adversarial-autoencoder-tf2/sampled_decoder_output.png" width="200px" style="max-width:100%"></td>
-</tr>
-</tbody>
-</table>
-<h3 id="reconstruction">Reconstruction</h3>
-<table>
-<thead>
-<tr>
-<th>Input images</th>
-<th>Reconstructed images </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/imgs/adversarial-autoencoder-tf2/input_images.png" width="200px" style="max-width:100%"></td>
-<td><img src="/imgs/adversarial-autoencoder-tf2/reconstruction_example.png" width="200px" style="max-width:100%"></td>
-</tr>
-</tbody>
-</table>
-<h3 id="training-loss">Training loss</h3>
-<table>
-<thead>
-<tr>
-<th>Gan</th>
-<th>Encoder</th>
-<th>Discriminator</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/imgs/adversarial-autoencoder-tf2/gan_loss.png" width="300px" style="max-width:100%"></td>
-<td><img src="/imgs/adversarial-autoencoder-tf2/encoder_loss.png" width="300px" style="max-width:100%"></td>
-<td><img src="/imgs/adversarial-autoencoder-tf2/discriminator_loss.png" width="300px" style="max-width:100%"> </td>
-</tr>
-</tbody>
-</table>
-<p><br></p>
-<h2 id="example-of-usage">Example of usage</h2>
-<pre><code>python train_model<span class="hljs-selector-class">.py</span> --prior_type gaussian_mixture
-</code></pre><h3 id="attributes">Attributes</h3>
-<ul>
-<li><code>--prior_type</code>: Type of target prior distribution. Default: <code>gaussian_mixture</code>. Required.</li>
-<li><code>--results_dir</code>: Training visualization directory. Default: <code>results</code>. Created if non-existent.</li>
-<li><code>--log_dir</code>: Log directory (Tensorboard). Default: <code>logs</code>. Created if non-existent.</li>
-<li><code>--gm_x_stddev</code>: Gaussian mixture prior: standard deviation for the x coord. Default: <code>0.5</code></li>
-<li><code>--gm_y_stddev</code>: Gaussian mixture prior: standard deviation for the y coord. Default: <code>0.1</code></li>
-<li><code>--n_epochs</code>: Number of epochs. Default: <code>20</code></li>
-<li><code>--learning_rate</code>: Learning rate. Default: <code>0.001</code></li>
-<li><code>--batch_size</code>: Batch size. Default: <code>128</code></li>
-<li><code>--num_classes</code>: Number of classes (for further use). Default: <code>10</code></li>
-</ul>
-<h2 id="visualization-of-outliers">Visualization of outliers</h2>
-<p>Visualization of outliers from learnt distribution in the latent space
-<img src="/imgs/adversarial-autoencoder-tf2/outliers-all.png" width="1200px" style="max-width:100%"> </p>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adversarial autoencoder (TF2) — elsanns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="site-title" href="/">elsanns</a>
+  <a class="link-back" href="/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+    All notebooks
+  </a>
+</header>
+
+<main class="article magazine">
+  <h1>Adversarial autoencoder &mdash; TensorFlow 2</h1>
+
+  <div class="meta">
+    <a class="pill" href="https://github.com/elsanns/adversarial-autoencoder-tf2" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+      Repo
+      <svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+    </a>
+  </div>
+
+  <article class="prose">
+    <p>A TensorFlow 2 implementation of <strong><a href="https://arxiv.org/abs/1511.05644/" target="_blank" rel="noopener">Adversarial Autoencoder</a></strong> (ICLR 2016).</p>
+
+    <section class="split">
+      <div class="split-text">
+        <h2>Model</h2>
+        <p>Regularisation of the hidden code by incorporating full label information. The encoder learns a latent code that the discriminator pushes toward a chosen prior conditioned on the class label.</p>
+        <p class="cite">Fig. 3 from <em>Alireza Makhzani, Jonathon Shlens, Navdeep Jaitly, Ian J. Goodfellow. Adversarial Autoencoders. CoRR abs/1511.05644 (2015).</em></p>
+      </div>
+      <figure class="split-figure">
+        <img src="/imgs/adversarial-autoencoder-tf2/aae-fig3.png" alt="Adversarial autoencoder architecture, Fig. 3 from the paper">
+      </figure>
+    </section>
+
+    <h2>Results for the <code>gaussian_mixture</code> prior</h2>
+
+    <h3>Latent space</h3>
+    <div class="figure-grid cols-3">
+      <figure>
+        <img src="/imgs/adversarial-autoencoder-tf2/gaussian_mixture_target_prior.png" alt="Target prior distribution">
+        <figcaption>Target prior distribution</figcaption>
+      </figure>
+      <figure>
+        <img src="/imgs/adversarial-autoencoder-tf2/learnt_manifold_example.png" alt="Learnt latent space">
+        <figcaption>Learnt latent space</figcaption>
+      </figure>
+      <figure>
+        <img src="/imgs/adversarial-autoencoder-tf2/sampled_decoder_output.png" alt="Sampled decoder output">
+        <figcaption>Sampled decoder output</figcaption>
+      </figure>
+    </div>
+
+    <h3>Reconstruction</h3>
+    <div class="figure-grid cols-2">
+      <figure>
+        <img src="/imgs/adversarial-autoencoder-tf2/input_images.png" alt="Input images">
+        <figcaption>Input images</figcaption>
+      </figure>
+      <figure>
+        <img src="/imgs/adversarial-autoencoder-tf2/reconstruction_example.png" alt="Reconstructed images">
+        <figcaption>Reconstructed images</figcaption>
+      </figure>
+    </div>
+
+    <h3>Training loss</h3>
+    <div class="figure-grid cols-3">
+      <figure>
+        <img src="/imgs/adversarial-autoencoder-tf2/gan_loss.png" alt="GAN loss">
+        <figcaption>GAN</figcaption>
+      </figure>
+      <figure>
+        <img src="/imgs/adversarial-autoencoder-tf2/encoder_loss.png" alt="Encoder loss">
+        <figcaption>Encoder</figcaption>
+      </figure>
+      <figure>
+        <img src="/imgs/adversarial-autoencoder-tf2/discriminator_loss.png" alt="Discriminator loss">
+        <figcaption>Discriminator</figcaption>
+      </figure>
+    </div>
+
+    <h2>Example of usage</h2>
+    <pre><code>python train_model.py --prior_type gaussian_mixture</code></pre>
+
+    <h3>Attributes</h3>
+    <ul>
+      <li><code>--prior_type</code>: target prior distribution. Default: <code>gaussian_mixture</code>. Required.</li>
+      <li><code>--results_dir</code>: training visualisation directory. Default: <code>results</code>. Created if non-existent.</li>
+      <li><code>--log_dir</code>: log directory (TensorBoard). Default: <code>logs</code>. Created if non-existent.</li>
+      <li><code>--gm_x_stddev</code>: Gaussian mixture prior, standard deviation for the x coord. Default: <code>0.5</code></li>
+      <li><code>--gm_y_stddev</code>: Gaussian mixture prior, standard deviation for the y coord. Default: <code>0.1</code></li>
+      <li><code>--n_epochs</code>: number of epochs. Default: <code>20</code></li>
+      <li><code>--learning_rate</code>: learning rate. Default: <code>0.001</code></li>
+      <li><code>--batch_size</code>: batch size. Default: <code>128</code></li>
+      <li><code>--num_classes</code>: number of classes (for further use). Default: <code>10</code></li>
+    </ul>
+
+    <section class="split">
+      <div class="split-text">
+        <h2 id="outliers">Visualisation of outliers</h2>
+        <p>The encoder learns to map inputs into the latent space. By projecting those learnt representations with PCA, samples that fall outside the target Gaussian-mixture distribution can be surfaced as outliers &mdash; even when their reconstruction loss looks acceptable.</p>
+      </div>
+      <figure class="split-figure">
+        <img src="/imgs/adversarial-autoencoder-tf2/outliers-all.png" alt="Outliers in the learnt latent distribution">
+        <figcaption>Outliers from the learnt distribution in the latent space.</figcaption>
+      </figure>
+    </section>
+
+    <h3>Detecting outliers in the latent space with PCA</h3>
+    <div class="figure-grid cols-4">
+      <figure><img src="/imgs/adversarial-autoencoder-tf2/notebooks/outliers-in-latent-space/notebooks-outliers-1.png" alt="PCA step 1"></figure>
+      <figure><img src="/imgs/adversarial-autoencoder-tf2/notebooks/outliers-in-latent-space/notebooks-outliers-2.png" alt="PCA step 2"></figure>
+      <figure><img src="/imgs/adversarial-autoencoder-tf2/notebooks/outliers-in-latent-space/notebooks-outliers-3.png" alt="PCA step 3"></figure>
+      <figure><img src="/imgs/adversarial-autoencoder-tf2/notebooks/outliers-in-latent-space/notebooks-outliers-4.png" alt="PCA step 4"></figure>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <a href="https://github.com/elsanns" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+    github.com/elsanns
+  </a>
+</footer>
+</body>
+</html>
