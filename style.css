@@ -396,15 +396,26 @@ img { max-width: 100%; height: auto; display: block; }
 .article.magazine.multicolumn .prose > h2,
 .article.magazine.multicolumn .prose > h3 { break-after: avoid; }
 .article.magazine.multicolumn .prose > .figure,
-.article.magazine.multicolumn .prose > .figure-grid,
 .article.magazine.multicolumn .prose > pre,
 .article.magazine.multicolumn .prose > ul,
 .article.magazine.multicolumn .prose > ol { break-inside: avoid; }
 .article.magazine.multicolumn .prose > .figure {
   margin: 16px 0 24px;
   max-width: 100%;
+  text-align: center;
 }
-.article.magazine.multicolumn .prose > .figure img { width: 100%; }
+.article.magazine.multicolumn .prose > .figure img {
+  max-width: 100%;
+  width: auto;
+  margin: 0 auto;
+}
+
+/* Wide elements break out to span both columns */
+.article.magazine.multicolumn .prose > .split,
+.article.magazine.multicolumn .prose > .figure-grid {
+  column-span: all;
+  margin: 32px 0;
+}
 
 @media (max-width: 900px) {
   .article.magazine.multicolumn .prose { columns: 1; column-rule: none; }
