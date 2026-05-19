@@ -381,8 +381,34 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--text-muted);
   line-height: 1.5;
 }
-.article.magazine .split.split-justify .split-text p { text-align: justify; hyphens: auto; }
 .article.magazine .split-figure { margin: 0; }
+
+/* Multi-column flow variant */
+.article.magazine.multicolumn .prose {
+  columns: 2;
+  column-gap: 56px;
+  column-rule: 1px solid var(--border);
+}
+.article.magazine.multicolumn .prose > * { max-width: none; }
+.article.magazine.multicolumn .prose > p,
+.article.magazine.multicolumn .prose > ul,
+.article.magazine.multicolumn .prose > ol { text-align: justify; hyphens: auto; }
+.article.magazine.multicolumn .prose > h2,
+.article.magazine.multicolumn .prose > h3 { break-after: avoid; }
+.article.magazine.multicolumn .prose > .figure,
+.article.magazine.multicolumn .prose > .figure-grid,
+.article.magazine.multicolumn .prose > pre,
+.article.magazine.multicolumn .prose > ul,
+.article.magazine.multicolumn .prose > ol { break-inside: avoid; }
+.article.magazine.multicolumn .prose > .figure {
+  margin: 16px 0 24px;
+  max-width: 100%;
+}
+.article.magazine.multicolumn .prose > .figure img { width: 100%; }
+
+@media (max-width: 900px) {
+  .article.magazine.multicolumn .prose { columns: 1; column-rule: none; }
+}
 .article.magazine .split-figure img {
   border-radius: var(--radius);
   border: 1px solid var(--border);
